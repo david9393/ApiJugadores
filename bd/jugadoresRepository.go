@@ -59,7 +59,7 @@ func GetJugadoresNombre(m models.Player) (error, []models.Player) {
 	const exec = `SELECT *
 	FROM public.jugadores where  lower(nombre) LIKE '%' || $1 || '%'`
 
-	rows, err := db.Query(exec, strings.ToLower(m.Club))
+	rows, err := db.Query(exec, strings.ToLower(m.Name))
 	if err != nil {
 		log.Fatal(err)
 		return err, listPlayers
