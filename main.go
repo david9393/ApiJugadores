@@ -11,6 +11,7 @@ import (
 
 func main() {
 	bd.ConectarBD()
+	bd.MakeMigration()
 	log.Println("Conexion exitosa")
 	e := echo.New()
 	e.Use(middleware.CORS())

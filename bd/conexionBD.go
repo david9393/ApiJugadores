@@ -14,12 +14,8 @@ const (
 	port     = 5432
 	user     = "postgres"
 	password = "admin"
-	dbname   = "jugadores"
-	//host     = "ec2-54-243-67-199.compute-1.amazonaws.com"
-	//port     = 5432
-	//user     = "qtrvvsjxosvyjl"
-	//password = "3e861e1966590ebed9b267be2f18ed2c49ed59155426374e7945576441cb4d1e"
-	//dbname   = "dcn8aj88hcvj73"
+	dbname   = "players"
+	
 )
 
 //var PostgresCN = ConectarBD()

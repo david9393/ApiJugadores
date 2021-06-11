@@ -3,7 +3,7 @@ package bd
 import (
 	"log"
 	"strings"
-
+	"io/ioutil"
 	"github.com/david9393/ApiJugadores/models"
 )
 
@@ -77,5 +77,19 @@ func GetJugadoresNombre(m models.Player) (error, []models.Player) {
 
 	return nil, listPlayers
 
+}
+func MakeMigration() error {
+	db := Pool()
+    b, err := ioutil.ReadFile("./bd/models.sql")
+    if err != nil {
+        return err
+    }
+
+    rows, err := db.Query(string(b))
+    if err != nil {
+        return err
+    }
+
+    return rows.Close()
 }
 
