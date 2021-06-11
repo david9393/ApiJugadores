@@ -1,6 +1,12 @@
 package bd
 
-import "github.com/david9393/ApiJugadores/models"
+import (
+	"log"
+	"strings"
+
+	"github.com/david9393/ApiJugadores/models"
+)
+
 
 func CrearJugadores(m []models.Items) error {
 
@@ -18,3 +24,58 @@ func CrearJugadores(m []models.Items) error {
 
 	return nil
 }
+func GetJugadoresEquipo(m models.Player) (error, []models.Player) {
+
+	listPlayers := []models.Player{}
+   
+	db := Pool()
+	const exec = `SELECT *
+	FROM public.jugadores where  lower(club)=$1`
+
+	rows, err := db.Query(exec, strings.ToLower(m.Club))
+	if err != nil {
+		log.Fatal(err)
+		return err, listPlayers
+	}
+	defer rows.Close()
+	for rows.Next() {
+		player := &models.Player{}
+		err = rows.Scan(&player.Name, &player.Position, &player.Nacionalidad,&player.Club)
+		if err != nil {
+			log.Fatal(err)
+			return err, listPlayers
+		}
+		listPlayers = append(listPlayers, *player)
+	}
+
+	return nil, listPlayers
+
+}
+func GetJugadoresNombre(m models.Player) (error, []models.Player) {
+
+	listPlayers := []models.Player{}
+   
+	db := Pool()
+	const exec = `SELECT *
+	FROM public.jugadores where  lower(nombre) LIKE '%' || $1 || '%'`
+
+	rows, err := db.Query(exec, strings.ToLower(m.Club))
+	if err != nil {
+		log.Fatal(err)
+		return err, listPlayers
+	}
+	defer rows.Close()
+	for rows.Next() {
+		player := &models.Player{}
+		err = rows.Scan(&player.Name, &player.Position, &player.Nacionalidad,&player.Club)
+		if err != nil {
+			log.Fatal(err)
+			return err, listPlayers
+		}
+		listPlayers = append(listPlayers, *player)
+	}
+
+	return nil, listPlayers
+
+}
+

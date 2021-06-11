@@ -9,11 +9,12 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/david9393/ApiJugadores/bd"
 	"github.com/david9393/ApiJugadores/models"
 	"github.com/labstack/echo"
 )
 
-func ObtenerJugadores(c echo.Context) error {
+func AddJugadores(c echo.Context) error {
 	response, err := http.Get("https://www.easports.com/fifa/ultimate-team/api/fut/item?page=1")
 	responseObject := models.Respuesta{}
 	if err != nil {
@@ -51,4 +52,34 @@ func ObtenerJugadores(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, "Se agrgaron correctamente los datos")
 
+}
+func GetJugadoresEquipo(c echo.Context) error {
+	data := models.Player{}
+	players := models.Players{}
+	err := c.Bind(&data)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+	err, listPlayers := bd.GetJugadoresEquipo(data)
+	players.Players = listPlayers
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, players)
+	}
+
+	return c.JSON(http.StatusOK, players)
+}
+func GetJugadoresNombre(c echo.Context) error {
+	data := models.Player{}
+	players := models.Players{}
+	err := c.Bind(&data)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+	err, listPlayers := bd.GetJugadoresNombre(data)
+	players.Players = listPlayers
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, players)
+	}
+
+	return c.JSON(http.StatusOK, players)
 }

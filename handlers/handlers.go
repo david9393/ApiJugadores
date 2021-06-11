@@ -6,6 +6,8 @@ import (
 )
 
 func RouteApiFifa(e *echo.Echo) {
-	menu := e.Group("/fifa")
-	menu.POST("/add", routers.ObtenerJugadores)
+	menu := e.Group("api/v1")
+	menu.POST("/add", routers.AddJugadores)
+	menu.POST("/team", routers.GetJugadoresEquipo)
+	menu.POST("/players", routers.GetJugadoresNombre)
 }
